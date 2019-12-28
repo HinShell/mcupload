@@ -1,0 +1,8 @@
+form {
+    margin-block-end: 0em;
+}
+
+.dropzone {
+    color: rgb(108, 117, 125);
+    border: 4px dashed rgb(0, 123, 255);
+}

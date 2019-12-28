@@ -1,0 +1,104 @@
+<html>
+<head>
+  <!-- build:css -->
+  <link rel="stylesheet" href="assets/css/bootstrap.css" >
+  <link rel="stylesheet" href="assets/css/dropzone.css" >
+  <link rel="stylesheet" href="assets/css/main.css" >
+  <!-- endbuild -->
+</head>
+<body>
+  <div class="bg-light container p-0 border-top-0 border-dark">
+    <div class="row">
+      <div class="col">
+        <div class="bg-secondary text-white rounded-bottom">
+          <!--<img src="https://via.placeholder.com/2000x240.png/6c757d/fff" class="img-fluid rounded-bottom" alt="Responsive image">-->
+          <img src="assets/images/minecraft.jpg" class="img-fluid rounded-bottom" alt="Responsive image">      
+        </div>
+      </div>
+    </div>
+    <div class="p-3 row row-eq-height">
+      <div class="col">
+        <div class="p-2 bg-white text-white rounded">
+          <div class="p-1 rounded">
+            <form action="api/submit.php" class="dropzone rounded" id="dropzone_1">
+              <div class="fallback">
+                <input name="file" type="file" />
+              </div>
+            </form>
+          </div>
+          <div class="text-center py-3">
+            <button type="button" class="btn btn-block btn-primary" id="btn_upload">Upload</button>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="p-2 bg-white text-secondary rounded">
+          <div class="p-1 border rounded">
+            <form id="delete"> 
+              <div id="zone">
+              </div>
+          </div> 
+          <div class="text-center py-3">
+            <button type="submit" class="btn btn-primary" id="btn_delete">Delete</button>
+            <button type="button" class="btn btn-info" id="btn_refresh">Refresh</button>
+            <button type="button" class="btn btn-danger" id="btn_all">Delete All</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+    <footer class="mastfoot mt-auto">
+      <div class="inner text-center">
+        <p>&copy; mcupload. All rights reserved. Design: HinShell.</p>
+      </div>
+    </footer>
+  </div>
+  <!-- build:js -->
+  <script src="assets/js/jquery-3.4.1.js"></script>
+  <script src="assets/js/bootstrap.js"></script>
+  <script src="assets/js/dropzone.js"></script>
+  <!-- endbuild -->
+  <script>
+    Dropzone.autoDiscover = false;
+
+    var myDropzone = new Dropzone(".dropzone", { 
+      autoProcessQueue: false,
+      parallelUploads: 10 // Number of files process at a time (default 2)
+    });
+
+    $('#btn_upload').click(function(){
+      myDropzone.processQueue();
+    });
+  </script>
+  <script>
+    //$(function() {
+    $('#btn_upload').click(function(){
+      $( "#zone" ).empty();
+      $.getJSON('api/list.php',function(data){
+        $.each(data.files,function(index,d){
+          //$('#zone').append('<li class="list-group-item">' + d.file + '</li>');
+          $( "#zone" ).append('<div class="form-check"><label class="form-check-label"><input type="checkbox" class="form-check-input" name="file[]"" value="' + d.file + '">' + d.file + '</label></div>');
+        });
+      });
+      //$( "#refresh" ).load(window.location.href + " #refresh" );
+      //$( "#refresh" ).load("api/list.php");
+    });
+</script>
+<script>
+  $(document).ready(function () {
+      $("#delete").submit(function (event) {
+          $.ajax({
+              type: 'POST',
+              url: 'api/delete.php',
+              data: $(this).serialize(),
+              success: function () {
+                  alert("success");
+              }
+          });
+          event.preventDefault();
+      });
+  });
+</script>
+  
+</body>
+</html>
