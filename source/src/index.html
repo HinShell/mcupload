@@ -71,8 +71,7 @@
     });
   </script>
   <script>
-    //$(function() {
-    $('#btn_upload').click(function(){
+      function listUpload( jQuery ) {
       $( "#zone" ).empty();
       $.getJSON('api/list.php',function(data){
         $.each(data.files,function(index,d){
@@ -80,9 +79,10 @@
           $( "#zone" ).append('<div class="form-check"><label class="form-check-label"><input type="checkbox" class="form-check-input" name="file[]"" value="' + d.file + '">' + d.file + '</label></div>');
         });
       });
-      //$( "#refresh" ).load(window.location.href + " #refresh" );
-      //$( "#refresh" ).load("api/list.php");
-    });
+    };
+
+    $( document ).ready( listUpload );
+    $('#btn_refresh').click( listUpload );
 </script>
 <script>
   $(document).ready(function () {
