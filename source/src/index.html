@@ -63,8 +63,9 @@
 
     var myDropzone = new Dropzone(".dropzone", { 
       autoProcessQueue: false,
-      parallelUploads: 10 // Number of files process at a time (default 2)
-    });
+      parallelUploads: 10, // Number of files process at a time (default 2)
+      timeout: 3600000
+   });
     myDropzone.on("complete", function(file) {
     myDropzone.removeFile(file);
     });
