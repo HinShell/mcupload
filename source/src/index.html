@@ -65,6 +65,9 @@
       autoProcessQueue: false,
       parallelUploads: 10 // Number of files process at a time (default 2)
     });
+    myDropzone.on("complete", function(file) {
+    myDropzone.removeFile(file);
+    });
 
     $('#btn_upload').click(function(){
       myDropzone.processQueue();
